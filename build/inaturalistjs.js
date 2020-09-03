@@ -4141,7 +4141,9 @@ function () {
     key: "lifelist_metadata",
     value: function lifelist_metadata(params) {
       // eslint-disable-line camelcase
-      return iNaturalistAPI.get("taxa/lifelist_metadata", params, params).then(Taxon.typifyResultsResponse);
+      return iNaturalistAPI.get("taxa/lifelist_metadata", params, {
+        useAuth: true
+      }).then(Taxon.typifyResultsResponse);
     }
   }, {
     key: "wanted",
