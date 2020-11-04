@@ -1,5 +1,6 @@
 const { expect } = require( "chai" );
 const nock = require( "nock" );
+const iNaturalistAPI = require( "../../lib/inaturalist_api" );
 const authorizedApplications = require( "../../lib/endpoints/authorized_applications" );
 
 describe( "AuthorizedApplications", ( ) => {
@@ -32,14 +33,26 @@ describe( "AuthorizedApplications", ( ) => {
     } );
   } );
   describe( "delete", ( ) => {
-    it( "deletes to /oauth/authorized_applications", done => {
+    it( "deletes to /oauth/authorized_applications by default", done => {
       const nockScope = nock( "http://localhost:3000" )
         .delete( "/oauth/authorized_applications/1", { id: 1 } )
-        .reply( 204, {} );
+        .reply( 200, {} );
       authorizedApplications.delete( { id: 1 } ).then( ( ) => {
         nockScope.done( );
         done( );
       } );
+    } );
+    it( "deletes to /v1/authorized_applications if writing to node", done => {
+      const existing = iNaturalistAPI.writeApiURL;
+      iNaturalistAPI.writeApiURL = "http://localhost:4000/v1";
+      const nockScope = nock( "http://localhost:4000" )
+        .delete( "/v1/authorized_applications/1", { id: 1 } )
+        .reply( 200, {} );
+      authorizedApplications.delete( { id: 1 } ).then( ( ) => {
+        nockScope.done( );
+        done( );
+      } );
+      iNaturalistAPI.writeApiURL = existing;
     } );
   } );
 } );

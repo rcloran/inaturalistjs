@@ -1812,7 +1812,13 @@ function () {
   }, {
     key: "delete",
     value: function _delete(params, options) {
-      return iNaturalistAPI.delete("oauth/authorized_applications/:id", params, options);
+      var endpoint = "oauth/authorized_applications/:id";
+
+      if (iNaturalistAPI.writeApiURL && iNaturalistAPI.writeApiURL.match(/\/v\d/)) {
+        endpoint = "authorized_applications/:id";
+      }
+
+      return iNaturalistAPI.delete(endpoint, params, options);
     }
   }]);
 
