@@ -22,15 +22,17 @@ describe( "Relationships", ( ) => {
         .reply( 200, {
           results: [stub]
         } );
-      relationships.search( ).then( r => {
-        nockScope.done( );
-        expect( r.results[0].friend_user.id ).to.eq( stub.friend_user.id );
-        expect( r.results[0].friend_user.login ).to.eq( stub.friend_user.login );
-        expect( r.results[0].created_at ).to.eq( stub.created_at );
-        expect( r.results[0].following ).to.eq( stub.following );
-        expect( r.results[0].trust ).to.eq( stub.trust );
-        done( );
-      } );
+      relationships.search( )
+        .then( r => {
+          nockScope.done( );
+          expect( r.results[0].friendUser.id ).to.eq( stub.friend_user.id );
+          expect( r.results[0].friendUser.login ).to.eq( stub.friend_user.login );
+          expect( r.results[0].created_at ).to.eq( stub.created_at );
+          expect( r.results[0].following ).to.eq( stub.following );
+          expect( r.results[0].trust ).to.eq( stub.trust );
+          done( );
+        } )
+        .catch( done );
     } );
   } );
 } );

@@ -4330,6 +4330,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var Model = __webpack_require__(11);
 
+var User = __webpack_require__(21);
+
 var Relationship =
 /*#__PURE__*/
 function (_Model) {
@@ -4344,12 +4346,22 @@ function (_Model) {
   _createClass(Relationship, null, [{
     key: "typifyInstanceResponse",
     value: function typifyInstanceResponse(response) {
-      return _get(_getPrototypeOf(Relationship), "typifyInstanceResponse", this).call(this, response, Relationship);
+      var r = _get(_getPrototypeOf(Relationship), "typifyInstanceResponse", this).call(this, response, Relationship);
+
+      r.friendUser = User.typifyInstanceResponse(r.friend_user, User);
+      delete r.friend_user;
+      return r;
     }
   }, {
     key: "typifyResultsResponse",
     value: function typifyResultsResponse(response) {
-      return _get(_getPrototypeOf(Relationship), "typifyResultsResponse", this).call(this, response, Relationship);
+      if (response.results) {
+        response.results = response.results.map(function (r) {
+          return Relationship.typifyInstanceResponse(r);
+        });
+      }
+
+      return response;
     }
   }]);
 
