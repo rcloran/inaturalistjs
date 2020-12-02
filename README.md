@@ -1,6 +1,7 @@
 # inaturalistjs
-[![Build Status](https://travis-ci.org/inaturalist/inaturalistjs.svg?branch=master)](https://travis-ci.org/inaturalist/inaturalistjs)
-[![Coverage Status](https://coveralls.io/repos/github/inaturalist/inaturalistjs/badge.svg?branch=master)](https://coveralls.io/github/inaturalist/inaturalistjs?branch=master)
+
+[![Build Status](https://github.com/inaturalist/inaturalistjs/workflows/inaturalistjs%20CI/badge.svg)](https://github.com/inaturalist/inaturalistjs/actions)
+[![Coverage Status](https://coveralls.io/repos/github/inaturalist/inaturalistjs/badge.svg?branch=main)](https://coveralls.io/github/inaturalist/inaturalistjs?branch=main)
 
 JavaScript package for iNaturalist.org. Supports CRUD for iNat data. This
 is an isomorphic library that can be used in the browser and within
