@@ -11,6 +11,7 @@ jobs:
           github_token: ${{ github.token }}
 
   build:
+    needs: pre_build
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
@@ -30,7 +31,7 @@ jobs:
 
   notify:
     name: Notify Slack
-    needs: [build]
+    needs: build
     if: always()
     runs-on: ubuntu-18.04
     steps:
