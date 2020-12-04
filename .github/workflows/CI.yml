@@ -3,6 +3,13 @@ name: inaturalistjs CI
 on: [push, pull_request]
 
 jobs:
+  pre_build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: fkirc/skip-duplicate-actions@master
+        with:
+          github_token: ${{ github.token }}
+
   build:
     runs-on: ubuntu-18.04
     steps:
