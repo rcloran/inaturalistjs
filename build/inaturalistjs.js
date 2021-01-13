@@ -3367,6 +3367,18 @@ function () {
     value: function create(params, options) {
       return iNaturalistAPI.upload("observation_sounds", params, options);
     }
+  }, {
+    key: "update",
+    value: function update(params, opts) {
+      var options = Object.assign({}, opts);
+      options.method = "PUT";
+      return iNaturalistAPI.upload("observation_sounds/:id", params, options);
+    }
+  }, {
+    key: "delete",
+    value: function _delete(params, options) {
+      return iNaturalistAPI.delete("observation_sounds/:id", params, options);
+    }
   }]);
 
   return observationSounds;
