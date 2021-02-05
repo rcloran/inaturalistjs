@@ -35,7 +35,7 @@ describe( "Comments", ( ) => {
   describe( "update", ( ) => {
     it( "puts to /comments", done => {
       nock( "http://localhost:3000" )
-        .put( "/comments/1", { id: 1, body: "testbody" } )
+        .put( "/comments/1", { body: "testbody" } )
         .reply( 200, { id: 1 } );
       comments.update( { id: 1, body: "testbody" } ).then( ( ) => {
         done( );
@@ -53,7 +53,7 @@ describe( "Comments", ( ) => {
   describe( "delete", ( ) => {
     it( "deletes to /comments", done => {
       nock( "http://localhost:3000" )
-        .delete( "/comments/1", { id: 1 } )
+        .delete( "/comments/1" )
         .reply( 200, { id: 1 } );
       comments.delete( { id: 1 } ).then( ( ) => {
         done( );

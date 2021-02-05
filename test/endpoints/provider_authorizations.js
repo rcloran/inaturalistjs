@@ -31,7 +31,7 @@ describe( "ProviderAuthorizations", ( ) => {
   describe( "delete", ( ) => {
     it( "deletes to /provider_authorizations by default", done => {
       const nockScope = nock( "http://localhost:3000" )
-        .delete( "/provider_authorizations/1", { id: 1 } )
+        .delete( "/provider_authorizations/1" )
         .reply( 200, {} );
       providerAuthorizations.delete( { id: 1 } ).then( ( ) => {
         nockScope.done( );
@@ -42,7 +42,7 @@ describe( "ProviderAuthorizations", ( ) => {
       const existing = iNaturalistAPI.writeApiURL;
       iNaturalistAPI.writeApiURL = "http://localhost:4000/v1";
       const nockScope = nock( "http://localhost:4000" )
-        .delete( "/v1/provider_authorizations/1", { id: 1 } )
+        .delete( "/v1/provider_authorizations/1" )
         .reply( 200, {} );
       providerAuthorizations.delete( { id: 1 } ).then( ( ) => {
         nockScope.done( );

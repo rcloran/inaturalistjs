@@ -112,7 +112,7 @@ describe( "Projects", ( ) => {
   describe( "delete", ( ) => {
     it( "deletes to /projects/:id", done => {
       nock( "http://localhost:3000" )
-        .delete( "/projects/1", { id: 1 } )
+        .delete( "/projects/1" )
         .reply( 200, { id: 1 } );
       projects.delete( { id: 1 } ).then( ( ) => {
         done( );
@@ -170,7 +170,7 @@ describe( "Projects", ( ) => {
   describe( "feature", ( ) => {
     it( "puts to /projects/:id/feature", done => {
       nock( "http://localhost:3000" )
-        .put( "/projects/1/feature", { id: 1 } )
+        .put( "/projects/1/feature" )
         .reply( 200, { id: 1 } );
       projects.feature( { id: 1 } ).then( ( ) => {
         done( );
@@ -181,7 +181,7 @@ describe( "Projects", ( ) => {
   describe( "unfeature", ( ) => {
     it( "puts to /projects/:id/unfeature", done => {
       nock( "http://localhost:3000" )
-        .put( "/projects/1/unfeature", { id: 1 } )
+        .put( "/projects/1/unfeature" )
         .reply( 200, { id: 1 } );
       projects.unfeature( { id: 1 } ).then( ( ) => {
         done( );

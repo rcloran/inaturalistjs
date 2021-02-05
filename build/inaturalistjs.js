@@ -304,7 +304,7 @@ function () {
       if (options.upload) {
         // multipart requests reference all nested parameter names as strings
         // so flatten arrays into "arr[0]" and objects into "obj[prop]"
-        params = iNaturalistAPI.flattenMultipartParams(params);
+        params = iNaturalistAPI.flattenMultipartParams(interpolated.remainingParams);
         body = new LocalFormData();
         Object.keys(params).forEach(function (k) {
           // FormData params can include options like file upload sizes
@@ -316,7 +316,7 @@ function () {
         });
       } else {
         headers["Content-Type"] = "application/json";
-        body = JSON.stringify(params);
+        body = JSON.stringify(interpolated.remainingParams);
       }
 
       var fetchOpts = {

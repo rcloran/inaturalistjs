@@ -62,7 +62,7 @@ describe( "Posts", ( ) => {
   describe( "update", ( ) => {
     it( "puts to /posts", done => {
       nock( "http://localhost:3000" )
-        .put( "/posts/1", { id: 1, body: "testbody" } )
+        .put( "/posts/1", { body: "testbody" } )
         .reply( 200, { id: 1 } );
       postsEndpoint.update( { id: 1, body: "testbody" } ).then( ( ) => {
         done( );
@@ -80,7 +80,7 @@ describe( "Posts", ( ) => {
   describe( "delete", ( ) => {
     it( "deletes to /posts", done => {
       nock( "http://localhost:3000" )
-        .delete( "/posts/1", { id: 1 } )
+        .delete( "/posts/1" )
         .reply( 200, { id: 1 } );
       postsEndpoint.delete( { id: 1 } ).then( ( ) => {
         done( );

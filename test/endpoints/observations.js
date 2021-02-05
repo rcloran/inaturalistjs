@@ -18,7 +18,7 @@ describe( "Observation", ( ) => {
   describe( "update", ( ) => {
     it( "puts to /observations/:id", done => {
       nock( "http://localhost:3000" )
-        .put( "/observations/1", { id: 1, body: "testbody" } )
+        .put( "/observations/1", { body: "testbody" } )
         .reply( 200, { id: 1 } );
       observations.update( { id: 1, body: "testbody" } ).then( ( ) => {
         done( );
@@ -29,7 +29,7 @@ describe( "Observation", ( ) => {
   describe( "delete", ( ) => {
     it( "deletes to /observations/:id", done => {
       nock( "http://localhost:3000" )
-        .delete( "/observations/1", { id: 1 } )
+        .delete( "/observations/1" )
         .reply( 200, { id: 1 } );
       observations.delete( { id: 1 } ).then( ( ) => {
         done( );
@@ -40,7 +40,7 @@ describe( "Observation", ( ) => {
   describe( "fave", ( ) => {
     it( "posts to /votes/vote/observation/:id", done => {
       nock( "http://localhost:3000" )
-        .post( "/votes/vote/observation/1", { id: 1 } )
+        .post( "/votes/vote/observation/1" )
         .reply( 200, { id: 1 } );
       observations.fave( { id: 1 } ).then( ( ) => {
         done( );
@@ -51,7 +51,7 @@ describe( "Observation", ( ) => {
   describe( "unfave", ( ) => {
     it( "deletes to /votes/unvote/observation/:id", done => {
       nock( "http://localhost:3000" )
-        .delete( "/votes/unvote/observation/1", { id: 1 } )
+        .delete( "/votes/unvote/observation/1" )
         .reply( 200, { id: 1 } );
       observations.unfave( { id: 1 } ).then( ( ) => {
         done( );
@@ -62,7 +62,7 @@ describe( "Observation", ( ) => {
   describe( "review", ( ) => {
     it( "posts to /observations/:id/review", done => {
       nock( "http://localhost:3000" )
-        .post( "/observations/1/review", { id: 1, reviewed: "true" } )
+        .post( "/observations/1/review", { reviewed: "true" } )
         .reply( 200, { id: 1 } );
       observations.review( { id: 1 } ).then( ( ) => {
         done( );
@@ -73,7 +73,7 @@ describe( "Observation", ( ) => {
   describe( "unreview", ( ) => {
     it( "deletes to /observations/:id/review", done => {
       nock( "http://localhost:3000" )
-        .delete( "/observations/1/review", { id: 1 } )
+        .delete( "/observations/1/review" )
         .reply( 200, { id: 1 } );
       observations.unreview( { id: 1 } ).then( ( ) => {
         done( );
@@ -84,7 +84,7 @@ describe( "Observation", ( ) => {
   describe( "setQualityMetric", ( ) => {
     it( "posts to /observations/:id/quality/:metric", done => {
       nock( "http://localhost:3000" )
-        .post( "/observations/1/quality/wild", { id: 1, metric: "wild", agree: "true" } )
+        .post( "/observations/1/quality/wild", { agree: "true" } )
         .reply( 200, { id: 1 } );
       observations.setQualityMetric( { id: 1, metric: "wild", agree: "true" } ).then( ( ) => {
         done( );
@@ -95,7 +95,7 @@ describe( "Observation", ( ) => {
   describe( "deleteQualityMetric", ( ) => {
     it( "deleted to /observations/:id/quality/:metric", done => {
       nock( "http://localhost:3000" )
-        .delete( "/observations/1/quality/wild", { id: 1, metric: "wild" } )
+        .delete( "/observations/1/quality/wild" )
         .reply( 200, { id: 1 } );
       observations.deleteQualityMetric( { id: 1, metric: "wild" } ).then( ( ) => {
         done( );
@@ -317,7 +317,7 @@ describe( "Observation", ( ) => {
   describe( "viewedUpdates", ( ) => {
     it( "puts to /observations/:id/viewed_updates", done => {
       nock( "http://localhost:3000" )
-        .put( "/observations/1/viewed_updates", { id: 1 } )
+        .put( "/observations/1/viewed_updates" )
         .reply( 200, { response: "success" } );
       observations.viewedUpdates( { id: 1 } ).then( r => {
         expect( r.response ).to.eq( "success" );

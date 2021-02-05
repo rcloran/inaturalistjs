@@ -26,7 +26,7 @@ describe( "Flags", ( ) => {
   describe( "delete", ( ) => {
     it( "deletes to /flags", done => {
       nock( "http://localhost:3000" )
-        .delete( "/flags/1", { id: 1 } )
+        .delete( "/flags/1" )
         .reply( 200, { id: 1 } );
       flags.delete( { id: 1 } ).then( ( ) => {
         done( );

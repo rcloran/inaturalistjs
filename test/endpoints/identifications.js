@@ -17,7 +17,7 @@ describe( "Identifications", ( ) => {
   describe( "update", ( ) => {
     it( "puts to /identifications", done => {
       nock( "http://localhost:3000" )
-        .put( "/identifications/1", { id: 1, body: "testbody" } )
+        .put( "/identifications/1", { body: "testbody" } )
         .reply( 200, { id: 1 } );
       identifications.update( { id: 1, body: "testbody" } ).then( ( ) => {
         done( );
@@ -28,7 +28,7 @@ describe( "Identifications", ( ) => {
   describe( "delete", ( ) => {
     it( "deletes to /identifications", done => {
       nock( "http://localhost:3000" )
-        .delete( "/identifications/1", { id: 1 } )
+        .delete( "/identifications/1" )
         .reply( 200, { id: 1 } );
       identifications.delete( { id: 1 } ).then( ( ) => {
         done( );

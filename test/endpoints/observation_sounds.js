@@ -28,7 +28,7 @@ describe( "ObservationSounds", ( ) => {
   describe( "delete", ( ) => {
     it( "deletes to /observation_sounds/:id", done => {
       nock( "http://localhost:3000" )
-        .delete( "/observation_sounds/1", { id: 1 } )
+        .delete( "/observation_sounds/1" )
         .reply( 200, { id: 1 } );
       observationSounds.delete( { id: 1 } ).then( ( ) => {
         done( );
