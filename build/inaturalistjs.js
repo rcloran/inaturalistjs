@@ -4505,9 +4505,18 @@ function () {
   }
 
   _createClass(sites, null, [{
-    key: "fetch",
-    value: function fetch(params) {
+    key: "search",
+    value: function search(params) {
       return iNaturalistAPI.get("sites", params).then(Site.typifyResultsResponse);
+    }
+  }, {
+    key: "fetch",
+    value: function fetch(ids, params) {
+      if (!ids || ids.length === 0) {
+        return iNaturalistAPI.get("sites", params).then(Site.typifyResultsResponse);
+      }
+
+      return iNaturalistAPI.fetch("sites", ids, params).then(Site.typifyResultsResponse);
     }
   }]);
 
