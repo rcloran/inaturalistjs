@@ -1723,7 +1723,7 @@ function () {
       var endpoint = "votes/unvote/annotation/:id";
 
       if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
-        endpoint = "annotations/:id/unvote";
+        endpoint = "annotations/:id/vote";
       }
 
       return iNaturalistAPI.delete(endpoint, params, options);
