@@ -3452,12 +3452,24 @@ function () {
   }, {
     key: "vote",
     value: function vote(params, options) {
-      return iNaturalistAPI.post("votes/vote/observation/:id", params, options).then(Observation.typifyInstanceResponse);
+      var endpoint = "votes/vote/observation/:id";
+
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
+        endpoint = "observations/:id/vote";
+      }
+
+      return iNaturalistAPI.post(endpoint, params, options).then(Observation.typifyInstanceResponse);
     }
   }, {
     key: "unvote",
     value: function unvote(params, options) {
-      return iNaturalistAPI.delete("votes/unvote/observation/:id", params, options);
+      var endpoint = "votes/unvote/observation/:id";
+
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
+        endpoint = "observations/:id/vote";
+      }
+
+      return iNaturalistAPI.delete(endpoint, params, options);
     }
   }, {
     key: "subscribe",
