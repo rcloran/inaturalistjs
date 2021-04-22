@@ -3474,6 +3474,10 @@ function () {
   }, {
     key: "subscribe",
     value: function subscribe(params, options) {
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
+        return iNaturalistAPI.put("observations/:id/subscription", params, options);
+      }
+
       return iNaturalistAPI.post("subscriptions/Observation/:id/subscribe", params, options);
     }
   }, {
