@@ -4050,12 +4050,24 @@ function () {
   }, {
     key: "join",
     value: function join(params, options) {
-      return iNaturalistAPI.post("projects/:id/join", params, options);
+      var endpoint = "projects/:id/join";
+
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
+        endpoint = "projects/:id/membership";
+      }
+
+      return iNaturalistAPI.post(endpoint, params, options);
     }
   }, {
     key: "leave",
     value: function leave(params, options) {
-      return iNaturalistAPI.delete("projects/:id/leave", params, options);
+      var endpoint = "projects/:id/leave";
+
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
+        endpoint = "projects/:id/membership";
+      }
+
+      return iNaturalistAPI.delete(endpoint, params, options);
     }
   }, {
     key: "add",
