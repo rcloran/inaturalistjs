@@ -230,6 +230,9 @@ function () {
       var apiToken = options.useAuth ? iNaturalistAPI.apiToken(options) : null;
       var headers = {
         Accept: "application/json",
+        // DO NOT OMIT! Without this fetch in React Native on Android will not
+        // even execute the request
+        "Content-Type": "application/json",
         "X-Via": "inaturalistjs"
       };
 
