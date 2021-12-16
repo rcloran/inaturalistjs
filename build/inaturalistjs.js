@@ -113,10 +113,11 @@ module.exports = {
   project_users: __webpack_require__(46),
   provider_authorizations: __webpack_require__(48),
   relationships: __webpack_require__(50),
-  sites: __webpack_require__(52),
-  sounds: __webpack_require__(54),
-  taxa: __webpack_require__(55),
-  users: __webpack_require__(56),
+  search: __webpack_require__(52),
+  sites: __webpack_require__(53),
+  sounds: __webpack_require__(55),
+  taxa: __webpack_require__(56),
+  users: __webpack_require__(57),
   Annotation: __webpack_require__(13),
   Comment: __webpack_require__(17),
   ControlledTerm: __webpack_require__(24),
@@ -130,10 +131,10 @@ module.exports = {
   Project: __webpack_require__(37),
   ProjectUser: __webpack_require__(47),
   ProviderAuthorization: __webpack_require__(49),
-  Site: __webpack_require__(53),
+  Site: __webpack_require__(54),
   Taxon: __webpack_require__(19),
   User: __webpack_require__(21),
-  FileUpload: __webpack_require__(57)
+  FileUpload: __webpack_require__(58)
 };
 
 /***/ }),
@@ -4542,7 +4543,69 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var iNaturalistAPI = __webpack_require__(1);
 
-var Site = __webpack_require__(53);
+var Place = __webpack_require__(40);
+
+var Project = __webpack_require__(37);
+
+var Taxon = __webpack_require__(19);
+
+var User = __webpack_require__(21);
+
+var search =
+/*#__PURE__*/
+function () {
+  function search() {
+    _classCallCheck(this, search);
+  }
+
+  _createClass(search, null, [{
+    key: "index",
+    value: function index(params) {
+      return iNaturalistAPI.get("search", params).then(function (response) {
+        if (response.results) {
+          response.results = response.results.map(function (result) {
+            switch (result.type) {
+              case "Place":
+                return new Place(result);
+
+              case "Project":
+                return new Project(result);
+
+              case "Taxon":
+                return new Taxon(result);
+
+              case "User":
+                return new User(result);
+
+              default:
+                return result;
+            }
+          });
+        }
+
+        return response;
+      });
+    }
+  }]);
+
+  return search;
+}();
+
+module.exports = search.index;
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var iNaturalistAPI = __webpack_require__(1);
+
+var Site = __webpack_require__(54);
 
 var sites =
 /*#__PURE__*/
@@ -4573,7 +4636,7 @@ function () {
 module.exports = sites;
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -4624,7 +4687,7 @@ function (_Model) {
 module.exports = Site;
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4655,7 +4718,7 @@ function () {
 module.exports = sounds;
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4731,7 +4794,7 @@ function () {
 module.exports = taxa;
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4817,7 +4880,7 @@ function () {
 module.exports = users;
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports) {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
