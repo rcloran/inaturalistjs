@@ -13,9 +13,14 @@ const config = {
       {
         test: /\.js$/,
         loader: "babel-loader",
-        query: { presets: ["@babel/preset-env"] }
+        options: { presets: ["@babel/preset-env"] }
       }
     ]
+  },
+  resolve: {
+    fallback: {
+      querystring: require.resolve( "querystring-es3" )
+    }
   }
 };
 
