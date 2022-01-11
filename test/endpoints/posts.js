@@ -14,6 +14,12 @@ describe( "Posts", ( ) => {
         done( );
       } );
     } );
+    it( "authenticates requests", done => {
+      nock( "http://localhost:4000", { reqheaders: { Authorization: "key" } } )
+        .get( "/v1/posts/for_user" )
+        .reply( 200, [{ id: 1, body: "testpost" }] );
+      postsEndpoint.for_user( {}, { api_token: "key" } ).then( ( ) => done( ) );
+    } );
   } );
 
   describe( "search", ( ) => {
