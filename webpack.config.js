@@ -2,6 +2,7 @@ const path = require( "path" );
 
 const config = {
   mode: "none",
+  target: ["web", "es5"],
   entry: "./lib/inaturalistjs.js",
   output: {
     filename: "inaturalistjs.js",
@@ -11,7 +12,7 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.c?js$/,
         loader: "babel-loader",
         options: { presets: ["@babel/preset-env"] }
       }
