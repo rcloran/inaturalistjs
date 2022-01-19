@@ -50,7 +50,7 @@ describe( "iNaturalistAPI", ( ) => {
         { param: "p", token: "t" }
       ) );
       nock( "http://localhost:3000" )
-        .post( "/observations", /taxon_id=4/ )
+        .post( "/observations", { taxon_id: 4 } )
         .reply( 200, { id: 1 } );
       const params = { taxon_id: 4 };
       iNaturalistAPI.post( "observations", params ).then( ( ) => {
