@@ -188,4 +188,16 @@ describe( "Projects", ( ) => {
       } );
     } );
   } );
+
+  describe( "search", ( ) => {
+    it( "gets /v1/projects", done => {
+      nock( "http://localhost:4000" )
+        .get( "/v1/projects?lat=10&lng=20" )
+        .reply( 200, testHelper.mockResponse );
+      projects.search( { lat: 10, lng: 20 } ).then( r => {
+        expect( r.test_uri ).to.eq( "/v1/projects?lat=10&lng=20" );
+        done( );
+      } );
+    } );
+  } );
 } );

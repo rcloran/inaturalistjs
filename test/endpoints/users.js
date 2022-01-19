@@ -19,6 +19,7 @@ describe( "Users", ( ) => {
       } );
     } );
   } );
+
   describe( "mute", ( ) => {
     it( "succeeds", done => {
       nock( "http://localhost:3000" )
@@ -29,6 +30,7 @@ describe( "Users", ( ) => {
       } );
     } );
   } );
+
   describe( "unmute", ( ) => {
     it( "succeeds", done => {
       nock( "http://localhost:3000" )
@@ -39,6 +41,7 @@ describe( "Users", ( ) => {
       } );
     } );
   } );
+
   describe( "block", ( ) => {
     it( "succeeds", done => {
       nock( "http://localhost:3000" )
@@ -49,12 +52,25 @@ describe( "Users", ( ) => {
       } );
     } );
   } );
+
   describe( "unblock", ( ) => {
     it( "succeeds", done => {
       nock( "http://localhost:3000" )
         .delete( "/users/1/block" )
         .reply( 200 );
       users.unblock( { id: 1 } ).then( ( ) => {
+        done( );
+      } );
+    } );
+  } );
+
+  describe( "projects", ( ) => {
+    it( "gets /users/:id/projects", done => {
+      nock( "http://localhost:4000" )
+        .get( "/v1/users/1/projects" )
+        .reply( 200, testHelper.mockResponse );
+      users.projects( { id: 1 } ).then( r => {
+        expect( r.test_uri ).to.eq( "/v1/users/1/projects" );
         done( );
       } );
     } );

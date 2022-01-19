@@ -3820,6 +3820,11 @@ var projects = /*#__PURE__*/function () {
       return iNaturalistAPI.fetch("projects", ids, params).then(Project.typifyResultsResponse);
     }
   }, {
+    key: "search",
+    value: function search(params, options) {
+      return iNaturalistAPI.get("projects", params, options).then(Project.typifyResultsResponse);
+    }
+  }, {
     key: "autocomplete",
     value: function autocomplete(params) {
       return iNaturalistAPI.get("projects/autocomplete", params).then(Project.typifyResultsResponse);
@@ -4616,6 +4621,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var iNaturalistAPI = __webpack_require__(1);
 
+var Project = __webpack_require__(35);
+
 var User = __webpack_require__(19);
 
 var users = /*#__PURE__*/function () {
@@ -4680,6 +4687,14 @@ var users = /*#__PURE__*/function () {
       var options = Object.assign({}, opts);
       options.useAuth = true;
       return iNaturalistAPI["delete"]("users/:id/block", params, options);
+    }
+  }, {
+    key: "projects",
+    value: function projects(params) {
+      var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var options = Object.assign({}, opts);
+      options.useAuth = true;
+      return iNaturalistAPI.get("users/:id/projects", params, options).then(Project.typifyResultsResponse);
     }
   }]);
 
