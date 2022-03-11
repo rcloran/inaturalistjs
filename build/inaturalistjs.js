@@ -219,10 +219,19 @@ var iNaturalistAPI = /*#__PURE__*/function () {
       var body;
 
       if (options.upload) {
-        // multipart requests reference all nested parameter names as strings
+        body = new LocalFormData(); // Before params get "flattened" extract the fields and encode them as a
+        // single JSON string, which the server can handle
+
+        var fields = interpolated.remainingParams.fields;
+
+        if (fields) {
+          delete interpolated.remainingParams.fields;
+          body.append("fields", JSON.stringify(fields));
+        } // multipart requests reference all nested parameter names as strings
         // so flatten arrays into "arr[0]" and objects into "obj[prop]"
+
+
         params = iNaturalistAPI.flattenMultipartParams(interpolated.remainingParams);
-        body = new LocalFormData();
         Object.keys(params).forEach(function (k) {
           // FormData params can include options like file upload sizes
           if (params[k] && params[k].type === "custom" && params[k].value) {
@@ -1731,6 +1740,12 @@ module.exports = Comment;
 /* 16 */
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1750,8 +1765,10 @@ var computervision = /*#__PURE__*/function () {
     key: "score_image",
     value: function score_image(params) {
       var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
       // eslint-disable-line camelcase
-      var options = Object.assign({}, opts);
+      var options = _objectSpread({}, opts);
+
       options.useAuth = true;
       options.apiURL = iNaturalistAPI.apiURL; // force the host to be the Node API
 
