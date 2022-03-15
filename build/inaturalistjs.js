@@ -3237,34 +3237,39 @@ var observations = /*#__PURE__*/function () {
   }, {
     key: "fave",
     value: function fave(params, options) {
-      return observations.vote(params, options);
+      if (!iNaturalistAPI.apiURL || iNaturalistAPI.apiURL.match(/\/v1/)) {
+        return observations.vote(params, options);
+      }
+
+      return iNaturalistAPI.post("observations/:id/fave", params, options);
     }
   }, {
     key: "unfave",
     value: function unfave(params, options) {
-      return observations.unvote(params, options);
+      // return observations.unvote( params, options );
+      if (!iNaturalistAPI.apiURL || iNaturalistAPI.apiURL.match(/\/v1/)) {
+        return observations.unvote(params, options);
+      }
+
+      return iNaturalistAPI["delete"]("observations/:id/fave", params, options);
     }
   }, {
     key: "vote",
     value: function vote(params, options) {
-      var endpoint = "votes/vote/observation/:id";
-
       if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
-        endpoint = "observations/:id/vote";
+        throw new Error("API v2 does not support observations.vote. Use fave or setQualityMetric instead.");
       }
 
-      return iNaturalistAPI.post(endpoint, params, options).then(Observation.typifyInstanceResponse);
+      return iNaturalistAPI.post("votes/vote/observation/:id", params, options).then(Observation.typifyInstanceResponse);
     }
   }, {
     key: "unvote",
     value: function unvote(params, options) {
-      var endpoint = "votes/unvote/observation/:id";
-
       if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
-        endpoint = "observations/:id/vote";
+        throw new Error("API v2 does not support observations.unvote. Use unfave or deleteQualityMetric instead.");
       }
 
-      return iNaturalistAPI["delete"](endpoint, params, options);
+      return iNaturalistAPI["delete"]("votes/unvote/observation/:id", params, options);
     }
   }, {
     key: "subscribe",
@@ -3278,14 +3283,16 @@ var observations = /*#__PURE__*/function () {
   }, {
     key: "review",
     value: function review(params, options) {
-      var p = Object.assign({}, params);
+      var p = _objectSpread({}, params);
+
       p.reviewed = "true";
       return iNaturalistAPI.post("observations/:id/review", p, options);
     }
   }, {
     key: "unreview",
     value: function unreview(params, options) {
-      var p = Object.assign({}, params);
+      var p = _objectSpread({}, params);
+
       return iNaturalistAPI["delete"]("observations/:id/review", p, options);
     }
   }, {
@@ -3322,7 +3329,7 @@ var observations = /*#__PURE__*/function () {
       return iNaturalistAPI.get("observations/identifiers", params).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
-            return Object.assign({}, r, {
+            return _objectSpread(_objectSpread({}, r), {}, {
               user: new User(r.user)
             });
           });
@@ -3337,7 +3344,7 @@ var observations = /*#__PURE__*/function () {
       return iNaturalistAPI.get("observations/observers", params).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
-            return Object.assign({}, r, {
+            return _objectSpread(_objectSpread({}, r), {}, {
               user: new User(r.user)
             });
           });
@@ -3355,7 +3362,7 @@ var observations = /*#__PURE__*/function () {
       })).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
-            return Object.assign({}, r, {
+            return _objectSpread(_objectSpread({}, r), {}, {
               taxon: new Taxon(r.taxon)
             });
           });
@@ -3373,7 +3380,7 @@ var observations = /*#__PURE__*/function () {
       })).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
-            return Object.assign({}, r, {
+            return _objectSpread(_objectSpread({}, r), {}, {
               taxon: new Taxon(r.taxon)
             });
           });
@@ -3391,7 +3398,7 @@ var observations = /*#__PURE__*/function () {
       })).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
-            return Object.assign({}, r, {
+            return _objectSpread(_objectSpread({}, r), {}, {
               taxon: new Taxon(r.taxon)
             });
           });
@@ -3406,7 +3413,8 @@ var observations = /*#__PURE__*/function () {
       return iNaturalistAPI.get("observations/popular_field_values", params).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (res) {
-            var r = Object.assign({}, res);
+            var r = _objectSpread({}, res);
+
             r.controlled_attribute = new ControlledTerm(r.controlled_attribute);
             r.controlled_value = new ControlledTerm(r.controlled_value);
             return r;
@@ -3422,7 +3430,7 @@ var observations = /*#__PURE__*/function () {
       return iNaturalistAPI.get("observations/umbrella_project_stats", params).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
-            return Object.assign({}, r, {
+            return _objectSpread(_objectSpread({}, r), {}, {
               project: new Project(r.project)
             });
           });
@@ -3474,12 +3482,13 @@ var observations = /*#__PURE__*/function () {
   }, {
     key: "similarSpecies",
     value: function similarSpecies(params, opts) {
-      var options = Object.assign({}, opts || {});
+      var options = _objectSpread({}, opts || {});
+
       options.useAuth = true;
       return iNaturalistAPI.get("observations/similar_species", params, options).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (r) {
-            return Object.assign({}, r, {
+            return _objectSpread(_objectSpread({}, r), {}, {
               taxon: new Taxon(r.taxon)
             });
           });
