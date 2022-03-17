@@ -111,6 +111,7 @@ var iNaturalistAPI = /*#__PURE__*/function () {
       var headers = apiToken ? {
         Authorization: apiToken
       } : {};
+      headers["Content-Type"] = "application/json";
 
       if (params && params.fields && _typeof(params.fields) === "object") {
         headers.Accept = "application/json";
