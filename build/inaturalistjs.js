@@ -32,7 +32,8 @@ module.exports = {
   sites: __webpack_require__(51),
   sounds: __webpack_require__(53),
   taxa: __webpack_require__(54),
-  users: __webpack_require__(55),
+  translations: __webpack_require__(55),
+  users: __webpack_require__(56),
   Annotation: __webpack_require__(11),
   Comment: __webpack_require__(15),
   ControlledTerm: __webpack_require__(22),
@@ -49,7 +50,7 @@ module.exports = {
   Site: __webpack_require__(52),
   Taxon: __webpack_require__(17),
   User: __webpack_require__(19),
-  FileUpload: __webpack_require__(56)
+  FileUpload: __webpack_require__(57)
 };
 
 /***/ }),
@@ -4396,25 +4397,26 @@ var search = /*#__PURE__*/function () {
 
   _createClass(search, null, [{
     key: "index",
-    value: function index(params) {
-      return iNaturalistAPI.get("search", params).then(function (response) {
+    value: function index() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      return iNaturalistAPI.get("search", params, options).then(function (response) {
         if (response.results) {
-          response.results = response.results.map(function (result) {
-            switch (result.type) {
-              case "Place":
-                return new Place(result);
+          response.results.forEach(function (result, index) {
+            var instanceAttribute;
 
-              case "Project":
-                return new Project(result);
-
-              case "Taxon":
-                return new Taxon(result);
-
-              case "User":
-                return new User(result);
-
-              default:
-                return result;
+            if (result.type === "Place") {
+              instanceAttribute = "record" in result ? "record" : "place";
+              response.results[index][instanceAttribute] = new Place(result[instanceAttribute]);
+            } else if (result.type === "Project") {
+              instanceAttribute = "record" in result ? "record" : "project";
+              response.results[index][instanceAttribute] = new Project(result[instanceAttribute]);
+            } else if (result.type === "Taxon") {
+              instanceAttribute = "record" in result ? "record" : "taxon";
+              response.results[index][instanceAttribute] = new Taxon(result[instanceAttribute]);
+            } else if (result.type === "User") {
+              instanceAttribute = "record" in result ? "record" : "user";
+              response.results[index][instanceAttribute] = new User(result[instanceAttribute]);
             }
           });
         }
@@ -4641,6 +4643,37 @@ module.exports = taxa;
 /* 55 */
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+var iNaturalistAPI = __webpack_require__(1);
+
+var translations = /*#__PURE__*/function () {
+  function translations() {
+    _classCallCheck(this, translations);
+  }
+
+  _createClass(translations, null, [{
+    key: "locales",
+    value: function locales() {
+      var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      return iNaturalistAPI.get("translations/locales", params, options);
+    }
+  }]);
+
+  return translations;
+}();
+
+module.exports = translations;
+
+/***/ }),
+/* 56 */
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -4758,7 +4791,7 @@ var users = /*#__PURE__*/function () {
 module.exports = users;
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module) {
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
