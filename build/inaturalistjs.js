@@ -3240,7 +3240,7 @@ var observations = /*#__PURE__*/function () {
   }, {
     key: "fave",
     value: function fave(params, options) {
-      if (!iNaturalistAPI.apiURL || iNaturalistAPI.apiURL.match(/\/v1/)) {
+      if (!iNaturalistAPI.apiURL || !iNaturalistAPI.apiURL.match(/\/v2/)) {
         return observations.vote(params, options);
       }
 
@@ -3250,7 +3250,7 @@ var observations = /*#__PURE__*/function () {
     key: "unfave",
     value: function unfave(params, options) {
       // return observations.unvote( params, options );
-      if (!iNaturalistAPI.apiURL || iNaturalistAPI.apiURL.match(/\/v1/)) {
+      if (!iNaturalistAPI.apiURL || !iNaturalistAPI.apiURL.match(/\/v2/)) {
         return observations.unvote(params, options);
       }
 
