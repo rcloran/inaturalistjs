@@ -2621,10 +2621,16 @@ var identifications = /*#__PURE__*/function () {
       return iNaturalistAPI.get("identifications/recent_taxa", params, options).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (res) {
+            var _r$identification, _r$identification$obs;
+
             var r = Object.assign({}, res);
             r.taxon = new Taxon(r.taxon);
             r.identification = new Identification(r.identification);
-            delete r.identification.observation.identifications;
+
+            if ((_r$identification = r.identification) !== null && _r$identification !== void 0 && (_r$identification$obs = _r$identification.observation) !== null && _r$identification$obs !== void 0 && _r$identification$obs.identifications) {
+              delete r.identification.observation.identifications;
+            }
+
             r.identification.observation = new Observation(r.identification.observation);
             return r;
           });
@@ -2642,10 +2648,16 @@ var identifications = /*#__PURE__*/function () {
       return iNaturalistAPI.get("identifications/recent_taxa_revisited", params, options).then(function (response) {
         if (response.results) {
           response.results = response.results.map(function (res) {
+            var _r$identification2, _r$identification2$ob;
+
             var r = Object.assign({}, res);
             r.taxon = new Taxon(r.taxon);
             r.identification = new Identification(r.identification);
-            delete r.identification.observation.identifications;
+
+            if ((_r$identification2 = r.identification) !== null && _r$identification2 !== void 0 && (_r$identification2$ob = _r$identification2.observation) !== null && _r$identification2$ob !== void 0 && _r$identification2$ob.identifications) {
+              delete r.identification.observation.identifications;
+            }
+
             r.identification.observation = new Observation(r.identification.observation);
             return r;
           });
