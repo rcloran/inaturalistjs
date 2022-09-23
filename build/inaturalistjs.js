@@ -57,6 +57,10 @@ module.exports = {
 /* 1 */
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -136,7 +140,8 @@ var iNaturalistAPI = /*#__PURE__*/function () {
   }, {
     key: "get",
     value: function get(route, params, opts) {
-      var options = Object.assign({}, opts || {});
+      var options = _objectSpread({}, opts || {});
+
       var interpolated = iNaturalistAPI.interpolateRouteParams(route, params);
 
       if (interpolated.err) {
@@ -181,8 +186,10 @@ var iNaturalistAPI = /*#__PURE__*/function () {
   }, {
     key: "post",
     value: function post(route, p, opts) {
-      var options = Object.assign({}, opts || {});
-      var params = Object.assign({}, p || {}); // interpolate path params, e.g. /:id => /1
+      var options = _objectSpread({}, opts || {});
+
+      var params = _objectSpread({}, p || {}); // interpolate path params, e.g. /:id => /1
+
 
       var interpolated = iNaturalistAPI.interpolateRouteParams(route, params);
 
@@ -273,9 +280,11 @@ var iNaturalistAPI = /*#__PURE__*/function () {
     key: "head",
     value: function head(route, params) {
       var opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      var options = Object.assign({}, opts, {
+
+      var options = _objectSpread(_objectSpread({}, opts), {}, {
         method: "head"
       });
+
       return iNaturalistAPI.post(route, params, options);
     } // a variant of post using the http PUT method
 
@@ -283,9 +292,11 @@ var iNaturalistAPI = /*#__PURE__*/function () {
     key: "put",
     value: function put(route, params) {
       var opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      var options = Object.assign({}, opts, {
+
+      var options = _objectSpread(_objectSpread({}, opts), {}, {
         method: "put"
       });
+
       return iNaturalistAPI.post(route, params, options);
     } // a variant of post using the http DELETE method
 
@@ -293,9 +304,11 @@ var iNaturalistAPI = /*#__PURE__*/function () {
     key: "delete",
     value: function _delete(route, params) {
       var opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      var options = Object.assign({}, opts, {
+
+      var options = _objectSpread(_objectSpread({}, opts), {}, {
         method: "delete"
       });
+
       return iNaturalistAPI.post(route, params, options);
     }
   }, {
@@ -304,10 +317,12 @@ var iNaturalistAPI = /*#__PURE__*/function () {
       var opts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       // uploads can be POST or PUT
       var method = opts.method || "post";
-      var options = Object.assign({}, opts || {}, {
+
+      var options = _objectSpread(_objectSpread({}, opts || {}), {}, {
         method: method,
         upload: true
       });
+
       return iNaturalistAPI.post(route, params, options);
     }
   }, {
@@ -448,7 +463,9 @@ var iNaturalistAPI = /*#__PURE__*/function () {
     value: function interpolateRouteParams(route, params) {
       var err;
       var interpolatedRoute = route;
-      var remainingParams = Object.assign({}, params);
+
+      var remainingParams = _objectSpread({}, params);
+
       var interpolatedParams = {};
       var matches = route.match(/(:[a-z]+)(?=\/|$)/g);
 
@@ -487,7 +504,7 @@ var iNaturalistAPI = /*#__PURE__*/function () {
   }, {
     key: "optionsUseAuth",
     value: function optionsUseAuth(options) {
-      return Object.assign({}, options, {
+      return _objectSpread(_objectSpread({}, options), {}, {
         useAuth: true
       });
     }
@@ -3647,7 +3664,20 @@ var places = /*#__PURE__*/function () {
   }, {
     key: "autocomplete",
     value: function autocomplete(params) {
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
+        throw new Error("API v2 does not support places.autocomplete. Use places.search instead.");
+      }
+
       return iNaturalistAPI.get("places/autocomplete", params).then(Place.typifyResultsResponse);
+    }
+  }, {
+    key: "search",
+    value: function search(params) {
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v1/)) {
+        throw new Error("API v1 does not support places.search. Use places.autocomplete instead.");
+      }
+
+      return iNaturalistAPI.get("places", params).then(Place.typifyResultsResponse);
     }
   }, {
     key: "containing",
