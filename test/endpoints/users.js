@@ -1,4 +1,5 @@
 const { expect } = require( "chai" );
+const _ = require( "lodash" );
 const nock = require( "nock" );
 const iNaturalistAPI = require( "../../lib/inaturalist_api" );
 const users = require( "../../lib/endpoints/users" );
@@ -17,6 +18,10 @@ const v2ToV1 = ( ) => {
     writeApiURL: iNaturalistAPI.apiURL.replace( "/v2", "/v1" )
   } );
 };
+
+const veryLongFieldsObject = _.fromPairs( _.map( _.range( 1, 500 ), i => (
+  [`field${i}`, true]
+) ) );
 
 describe( "Users", ( ) => {
   describe( "fetch", ( ) => {
@@ -51,9 +56,20 @@ describe( "Users", ( ) => {
 
       it( "accepts fields object", done => {
         nock( "http://localhost:4000" )
-          .post( "/v2/users/1" )
+          .get( "/v2/users/1?fields=(login%3A!t%2Cname%3A!t)" )
           .reply( 200, testHelper.mockResponse );
         users.fetch( 1, { fields: { login: true, name: true } } ).then( r => {
+          expect( r.total_results ).to.eq( 1 );
+          expect( r.results[0].id ).to.eq( 1 );
+          done( );
+        } );
+      } );
+
+      it( "uses POST for very long fields object", done => {
+        nock( "http://localhost:4000" )
+          .post( "/v2/users/1" )
+          .reply( 200, testHelper.mockResponse );
+        users.fetch( 1, { fields: veryLongFieldsObject } ).then( r => {
           expect( r.total_results ).to.eq( 1 );
           expect( r.results[0].id ).to.eq( 1 );
           done( );
@@ -80,9 +96,20 @@ describe( "Users", ( ) => {
 
       it( "accepts fields object", done => {
         nock( "http://localhost:4000" )
-          .post( "/v2/users/me" )
+          .get( "/v2/users/me?fields=(login%3A!t%2Cname%3A!t)" )
           .reply( 200, testHelper.mockResponse );
         users.me( { fields: { login: true, name: true } } ).then( r => {
+          expect( r.total_results ).to.eq( 1 );
+          expect( r.results[0].id ).to.eq( 1 );
+          done( );
+        } );
+      } );
+
+      it( "uses POST for very long fields object", done => {
+        nock( "http://localhost:4000" )
+          .post( "/v2/users/me" )
+          .reply( 200, testHelper.mockResponse );
+        users.me( { fields: veryLongFieldsObject } ).then( r => {
           expect( r.total_results ).to.eq( 1 );
           expect( r.results[0].id ).to.eq( 1 );
           done( );
