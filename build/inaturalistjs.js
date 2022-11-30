@@ -5436,6 +5436,16 @@ var users = /*#__PURE__*/function () {
       options.useAuth = true;
       return iNaturalistAPI.get("users/:id/projects", params, options).then(Project.typifyResultsResponse);
     }
+  }, {
+    key: "resendConfirmation",
+    value: function resendConfirmation(params) {
+      var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      var options = _objectSpread({}, opts);
+
+      options.useAuth = true;
+      return iNaturalistAPI.post("users/resend_confirmation", params, options);
+    }
   }]);
 
   return users;
