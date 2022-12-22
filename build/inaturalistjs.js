@@ -4132,6 +4132,11 @@ var observations = /*#__PURE__*/function () {
     value: function taxa(params) {
       return iNaturalistAPI.get("observations/taxa", params);
     }
+  }, {
+    key: "deleted",
+    value: function deleted(params, options) {
+      return iNaturalistAPI.get("observations/deleted", params, iNaturalistAPI.optionsUseAuth(options));
+    }
   }]);
 
   return observations;
