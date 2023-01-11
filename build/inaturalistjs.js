@@ -3754,12 +3754,25 @@ var observationPhotos = /*#__PURE__*/function () {
   _createClass(observationPhotos, null, [{
     key: "create",
     value: function create(params, options) {
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/) && !params.file) {
+        // For API v2, observation_photos creation endpoint shouldn't receive a
+        // 'file' input param - however, if we use the 'upload' method, it will
+        // send the POST request as a multipart request, which will
+        // make the server require the file param.
+        return iNaturalistAPI.post("observation_photos", params, options);
+      }
+
       return iNaturalistAPI.upload("observation_photos", params, options);
     }
   }, {
     key: "update",
     value: function update(params, opts) {
       var options = Object.assign({}, opts);
+
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
+        return iNaturalistAPI.put("observation_photos/:id", params, options);
+      }
+
       options.method = "PUT";
       return iNaturalistAPI.upload("observation_photos/:id", params, options);
     }
@@ -3795,12 +3808,25 @@ var observationSounds = /*#__PURE__*/function () {
   _createClass(observationSounds, null, [{
     key: "create",
     value: function create(params, options) {
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/) && !params.file) {
+        // For API v2, observation_photos creation endpoint shouldn't receive a
+        // 'file' input param - however, if we use the 'upload' method, it will
+        // send the POST request as a multipart request, which will
+        // make the server require the file param.
+        return iNaturalistAPI.post("observation_sounds", params, options);
+      }
+
       return iNaturalistAPI.upload("observation_sounds", params, options);
     }
   }, {
     key: "update",
     value: function update(params, opts) {
       var options = Object.assign({}, opts);
+
+      if (iNaturalistAPI.apiURL && iNaturalistAPI.apiURL.match(/\/v2/)) {
+        return iNaturalistAPI.put("observation_sounds/:id", params, options);
+      }
+
       options.method = "PUT";
       return iNaturalistAPI.upload("observation_sounds/:id", params, options);
     }
